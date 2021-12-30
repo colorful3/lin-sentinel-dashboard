@@ -158,6 +158,22 @@ angular
         }
       })
 
+      .state('dashboard.paramFlowV2', {
+        templateUrl: 'app/views/param_flow.html',
+        url: '/v2/paramFlow/:app',
+        controller: 'ParamFlowControllerV2',
+        resolve: {
+          loadMyFiles: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name: 'sentinelDashboardApp',
+              files: [
+                'app/scripts/controllers/param_flow_v2.js',
+              ]
+            });
+          }]
+        }
+      })
+
       .state('dashboard.clusterAppAssignManage', {
           templateUrl: 'app/views/cluster_app_assign_manage.html',
           url: '/cluster/assign_manage/:app',
@@ -264,6 +280,22 @@ angular
               name: 'sentinelDashboardApp',
               files: [
                 'app/scripts/controllers/degrade.js',
+              ]
+            });
+          }]
+        }
+      })
+
+      .state('dashboard.degradeV2', {
+        templateUrl: 'app/views/degrade.html',
+        url: '/v2/degrade/:app',
+        controller: 'DegradeCtlV2',
+        resolve: {
+          loadMyFiles: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name: 'sentinelDashboardApp',
+              files: [
+                'app/scripts/controllers/degrade_v2.js',
               ]
             });
           }]
