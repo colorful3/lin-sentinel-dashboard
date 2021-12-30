@@ -350,6 +350,22 @@ angular
         }
       })
 
+      .state('dashboard.gatewayApiV2', {
+          templateUrl: 'app/views/gateway/api.html',
+          url: '/v2/gateway/api/:app',
+          controller: 'GatewayApiCtlV2',
+          resolve: {
+              loadMyFiles: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load({
+                      name: 'sentinelDashboardApp',
+                      files: [
+                          'app/scripts/controllers/gateway/api_v2.js',
+                      ]
+                  });
+              }]
+          }
+      })
+
       .state('dashboard.gatewayFlow', {
           templateUrl: 'app/views/gateway/flow.html',
           url: '/gateway/flow/:app',
