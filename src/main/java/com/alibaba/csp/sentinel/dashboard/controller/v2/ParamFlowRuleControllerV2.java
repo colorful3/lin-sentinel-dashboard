@@ -130,7 +130,7 @@ public class ParamFlowRuleControllerV2 {
         entity.setGmtModified(date);
         try {
             entity = repository.save(entity);
-            publishRules(entity.getApp(), entity.getIp(), entity.getPort()).get();
+            publishRules(entity.getApp(), entity.getIp(), entity.getPort());
             return Result.ofSuccess(entity);
         } catch (ExecutionException ex) {
             logger.error("Error when adding new parameter flow rules", ex.getCause());
@@ -207,7 +207,7 @@ public class ParamFlowRuleControllerV2 {
         entity.setGmtModified(date);
         try {
             entity = repository.save(entity);
-            publishRules(entity.getApp(), entity.getIp(), entity.getPort()).get();
+            publishRules(entity.getApp(), entity.getIp(), entity.getPort());
             return Result.ofSuccess(entity);
         } catch (ExecutionException ex) {
             logger.error("Error when updating parameter flow rules, id=" + id, ex.getCause());
@@ -235,7 +235,7 @@ public class ParamFlowRuleControllerV2 {
 
         try {
             repository.delete(id);
-            publishRules(oldEntity.getApp(), oldEntity.getIp(), oldEntity.getPort()).get();
+            publishRules(oldEntity.getApp(), oldEntity.getIp(), oldEntity.getPort());
             return Result.ofSuccess(id);
         } catch (ExecutionException ex) {
             logger.error("Error when deleting parameter flow rules", ex.getCause());
@@ -250,10 +250,9 @@ public class ParamFlowRuleControllerV2 {
         }
     }
 
-    private CompletableFuture<Void> publishRules(String app, String ip, Integer port) throws Exception {
-        List<ParamFlowRuleEntity> rules = repository.findAllByMachine(MachineInfo.of(app, ip, port));
+    private void publishRules(String app, String ip, Integer port) throws Exception {
+        List<ParamFlowRuleEntity> rules = repository.findAllByApp(app);
         rulePublisher.publish(app, rules);
-        return new CompletableFuture<>();
     }
 
     private <R> Result<R> unsupportedVersion() {
